@@ -1,0 +1,382 @@
+/* Prescription Translator Styles - Plain CSS */
+.prescription-translator {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  padding-bottom: 3rem;
+}
+
+.translator-header {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.translator-header h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.translator-header p {
+  color: #4b5563;
+}
+
+/* Language Selector */
+.language-selector {
+  max-width: 80rem;
+  margin: 0 auto 2rem;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.language-selector label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.language-select {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  flex: 1;
+  max-width: 20rem;
+}
+
+/* Prescriptions List Section */
+.prescriptions-list-section {
+  max-width: 80rem;
+  margin: 0 auto 2rem;
+  padding: 0 1rem;
+}
+
+.prescriptions-list-section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+/* Translation Results */
+.translation-results {
+  max-width: 80rem;
+  margin: 0 auto 2rem;
+  padding: 0 1rem;
+}
+
+.translation-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.translation-header {
+  background: linear-gradient(to right, #0284c7, #0ea5e9);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.translation-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+}
+
+.translation-badges {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.badge-simple {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.badge-language {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* Translation Content */
+.translation-content {
+  padding: 1.5rem;
+}
+
+.translated-text {
+  background-color: #f9fafb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.translating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.translated-content {
+  white-space: pre-wrap;
+  font-family: inherit;
+  color: #374151;
+  line-height: 1.75;
+}
+
+/* Medicine Explanations */
+.medicine-explanations {
+  border-top: 1px solid #f3f4f6;
+  padding: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.medicine-explanations h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.explanations-list {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .explanations-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.medicine-explanation-card {
+  background-color: #f9fafb;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #f3f4f6;
+}
+
+.medicine-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.medicine-name {
+  font-weight: 700;
+  color: #111827;
+}
+
+.medicine-dosage {
+  font-size: 0.875rem;
+  color: #0284c7;
+  font-weight: 500;
+  background-color: #f0f9ff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.medicine-info {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 0.25rem;
+}
+
+.medicine-explanation {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.medicine-explanation strong {
+  color: #374151;
+}
+
+.medicine-explanation p {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-top: 0.25rem;
+}
+
+/* Notes Explanation */
+.notes-explanation {
+  border-top: 1px solid #f3f4f6;
+  padding: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.notes-explanation h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.explained-notes {
+  background-color: #fefce8;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #fef08a;
+}
+
+.explained-notes p {
+  color: #374151;
+}
+
+/* Translation Actions */
+.translation-actions {
+  padding: 1rem 1.5rem;
+  padding-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.translation-actions button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.translation-actions .btn-primary {
+  background-color: #0284c7;
+  color: white;
+}
+
+.translation-actions .btn-primary:hover {
+  background-color: #0369a1;
+}
+
+.translation-actions .btn-secondary {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.translation-actions .btn-secondary:hover {
+  background-color: #e5e7eb;
+}
+
+.translation-actions .btn-outline {
+  border: 2px solid #d1d5db;
+  color: #374151;
+}
+
+.translation-actions .btn-outline:hover {
+  background-color: #f9fafb;
+}
+
+/* Quick Reference Guide */
+.quick-reference {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.quick-reference h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.reference-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .reference-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.reference-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.reference-card h4 {
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reference-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reference-card li {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+.reference-card li strong {
+  color: #111827;
+}
+
+/* No prescriptions */
+.no-prescriptions {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  text-align: center;
+}
+
+.no-prescriptions p {
+  color: #4b5563;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .translation-actions {
+    flex-direction: column;
+  }
+  
+  .translation-actions button {
+    width: 100%;
+  }
+  
+  .reference-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .translation-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

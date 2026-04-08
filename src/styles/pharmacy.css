@@ -1,0 +1,443 @@
+/* Pharmacy Locator Styles - Plain CSS */
+.pharmacy-locator {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  padding-bottom: 3rem;
+}
+
+.pharmacy-header {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.pharmacy-header h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.pharmacy-header p {
+  color: #4b5563;
+}
+
+/* Location Info */
+.location-info {
+  max-width: 80rem;
+  margin: 0 auto 1.5rem;
+  padding: 1rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.location-icon {
+  font-size: 1.25rem;
+}
+
+.location-text {
+  color: #4b5563;
+  flex: 1;
+}
+
+.radius-select {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  width: 8rem;
+}
+
+/* Prescription Selection */
+.prescription-selection {
+  max-width: 80rem;
+  margin: 0 auto 2rem;
+  padding: 0 1rem;
+}
+
+.prescription-selection h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.prescription-cards {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .prescription-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .prescription-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.prescription-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.prescription-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.prescription-card.selected {
+  border-color: #0284c7;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.prescription-card .prescription-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.prescription-card .doctor-icon {
+  font-size: 1.875rem;
+}
+
+.prescription-card .prescription-info h4 {
+  font-weight: 600;
+  color: #111827;
+}
+
+.prescription-card .prescription-info .date {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.prescription-card .medicine-count {
+  font-size: 0.875rem;
+  color: #0284c7;
+  font-weight: 500;
+}
+
+/* Loading State */
+.loading-availability {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.loading-availability .spinner {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+}
+
+.loading-availability p {
+  color: #4b5563;
+}
+
+/* Pharmacy Results */
+.pharmacy-results {
+  max-width: 80rem;
+  margin: 0 auto 2rem;
+  padding: 0 1rem;
+}
+
+.pharmacy-results h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.pharmacies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pharmacy-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.pharmacy-main {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pharmacy-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.pharmacy-icon {
+  font-size: 2.25rem;
+}
+
+.pharmacy-details h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.pharmacy-address {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+.pharmacy-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.availability-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.availability-badge.all-available {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.availability-badge.some-available {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.availability-badge.none-available {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Medicine Availability Details */
+.medicine-availability-details {
+  border-top: 1px solid #f3f4f6;
+  padding: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.medicine-availability-details h4 {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.medicine-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.medicine-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: #f9fafb;
+}
+
+.medicine-item.available {
+  background-color: #f0fdf4;
+}
+
+.medicine-item.unavailable {
+  background-color: #fef2f2;
+}
+
+.medicine-status {
+  font-size: 1.125rem;
+}
+
+.medicine-name {
+  flex: 1;
+  font-weight: 500;
+  color: #111827;
+}
+
+.medicine-price {
+  font-weight: 600;
+  color: #374151;
+}
+
+.generic-badge {
+  font-size: 0.75rem;
+  background-color: #dbeafe;
+  color: #1e40af;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+}
+
+.pharmacy-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.pharmacy-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.pharmacy-actions .btn-primary {
+  background-color: #0284c7;
+  color: white;
+}
+
+.pharmacy-actions .btn-primary:hover {
+  background-color: #0369a1;
+}
+
+.pharmacy-actions .btn-primary:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.pharmacy-actions .btn-secondary {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.pharmacy-actions .btn-secondary:hover {
+  background-color: #e5e7eb;
+}
+
+.pharmacy-actions .btn-outline {
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+.pharmacy-actions .btn-outline:hover {
+  background-color: #f9fafb;
+}
+
+/* Map Section */
+.map-section {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.map-section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.map-placeholder {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  text-align: center;
+}
+
+.map-placeholder p {
+  color: #4b5563;
+}
+
+.map-note {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+}
+
+.pharmacy-markers {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .pharmacy-markers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .pharmacy-markers {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.marker-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* No prescriptions */
+.no-prescriptions {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  text-align: center;
+}
+
+.no-prescriptions p {
+  color: #4b5563;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pharmacy-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .pharmacy-meta {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .pharmacy-actions {
+    flex-direction: column;
+  }
+  
+  .pharmacy-actions button {
+    width: 100%;
+  }
+}
