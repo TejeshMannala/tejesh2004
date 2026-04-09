@@ -356,64 +356,92 @@ ${appointment.notes || 'No additional notes'}
           <p className="mt-3 text-sm leading-7 text-slate-600">{t('View prescriptions from your doctors')}</p>
         </div>
 
+        <div className="mt-8 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="rounded-[28px] border border-white/80 bg-white/90 p-6 shadow-sm backdrop-blur">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-700">{t('Nearby Care')}</p>
+            <h2 className="mt-3 text-2xl font-black tracking-tight text-slate-950">{t('Find medical stores and pharmacies nearby')}</h2>
+            <p className="mt-3 text-sm leading-7 text-slate-600">
+              {t('Use the pharmacy locator to check medicine availability, directions, and nearby medical support.')}
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <button className="btn-primary" onClick={() => navigate('/pharmacy-locator')}>
+                {t('Open Pharmacy Locator')}
+              </button>
+              <button className="btn-outline" onClick={() => navigate('/explore-doctors')}>
+                {t('Explore Doctors')}
+              </button>
+            </div>
+          </div>
+
+          <div className="rounded-[28px] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 p-6 text-white shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-300">{t('Quick View')}</p>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl bg-white/10 p-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-300">{t('Prescription Count')}</p>
+                <p className="mt-2 text-3xl font-black">{appointments.length}</p>
+              </div>
+              <div className="rounded-2xl bg-white/10 p-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-300">{t('Medication Items')}</p>
+                <p className="mt-2 text-3xl font-black">
+                  {appointments.reduce((total, appointment) => total + (appointment.medicines?.length || 0), 0)}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {appointments.length === 0 ? (
           <div className="mt-8 rounded-[28px] bg-white p-12 text-center shadow-sm">
             <p className="text-slate-600">{t('No prescriptions yet')}</p>
           </div>
         ) : (
-          <div className="mt-8 grid gap-6 lg:grid-cols-2">
-            {appointments.map((appointment) => (
-              <div key={appointment._id} className="rounded-[28px] border border-white/80 bg-white/90 p-6 shadow-sm backdrop-blur">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="text-2xl font-bold text-slate-900">{appointment.doctorId?.userId?.fullName}</h3>
-                    <p className="mt-2 text-sm font-medium text-primary-700">{appointment.doctorId?.specialization}</p>
-                  </div>
-                  <span className="rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary-700">
-                    {t('Prescription')}
-                  </span>
-                </div>
-
-                <div className="mt-5 space-y-4">
-                  <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-700">
-                    <p><strong>{t('Date')}:</strong> {new Date(appointment.appointmentId?.date).toLocaleDateString()}</p>
-                    <p className="mt-2"><strong>{t('Time')}:</strong> {appointment.appointmentId?.timeSlot}</p>
-                  </div>
-
-                  {appointment.medicines && appointment.medicines.length > 0 && (
-                    <div>
-                      <h4 className="text-lg font-bold text-slate-900">{t('Medicines Prescribed')}</h4>
-                      <div className="mt-3 space-y-3">
-                        {appointment.medicines.map((medicine, idx) => (
-                          <div key={idx} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
-                            <p className="font-semibold text-slate-900">{medicine.name}</p>
-                            <p className="mt-2"><strong>{t('Dosage')}:</strong> {medicine.dosage}</p>
-                            <p className="mt-1"><strong>{t('Duration')}:</strong> {medicine.duration}</p>
-                            <p className="mt-1"><strong>{t('Instructions')}:</strong> {medicine.instructions || medicine.instruction}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {appointment.notes && (
-                    <div className="rounded-2xl bg-slate-50 p-4">
-                      <h4 className="text-lg font-bold text-slate-900">{t('Doctor Notes')}</h4>
-                      <p className="mt-2 text-sm leading-7 text-slate-600">{appointment.notes}</p>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <button className="btn-secondary flex-1" onClick={() => downloadPDF(appointment)}>
-                    {t('Download')}
-                  </button>
-                  <button className="btn-primary flex-1" onClick={() => handlePrint(appointment)}>
-                    {t('Print')}
-                  </button>
-                </div>
-              </div>
-            ))}
+          <div className="mt-8 overflow-hidden rounded-[28px] border border-white/80 bg-white/90 shadow-sm backdrop-blur">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-slate-200 text-left">
+                <thead className="bg-slate-50 text-xs uppercase tracking-[0.16em] text-slate-500">
+                  <tr>
+                    <th className="px-6 py-4">{t('Doctor')}</th>
+                    <th className="px-6 py-4">{t('Date')}</th>
+                    <th className="px-6 py-4">{t('Time')}</th>
+                    <th className="px-6 py-4">{t('Medicines')}</th>
+                    <th className="px-6 py-4">{t('Notes')}</th>
+                    <th className="px-6 py-4">{t('Actions')}</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {appointments.map((appointment) => (
+                    <tr key={appointment._id} className="hover:bg-slate-50/80">
+                      <td className="px-6 py-4">
+                        <p className="font-semibold text-slate-900">{appointment.doctorId?.userId?.fullName}</p>
+                        <p className="text-sm text-slate-500">{appointment.doctorId?.specialization}</p>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-700">
+                        {new Date(appointment.appointmentId?.date).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-700">{appointment.appointmentId?.timeSlot}</td>
+                      <td className="px-6 py-4 text-sm text-slate-700">
+                        {appointment.medicines?.length || 0} {t('items')}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-700">
+                        <p className="max-w-[320px] truncate">
+                          {appointment.notes || t('No additional notes')}
+                        </p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col gap-2 sm:flex-row">
+                          <button className="btn-secondary" onClick={() => downloadPDF(appointment)}>
+                            {t('Download')}
+                          </button>
+                          <button className="btn-primary" onClick={() => handlePrint(appointment)}>
+                            {t('Print')}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>

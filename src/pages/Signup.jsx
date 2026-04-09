@@ -1,17 +1,15 @@
-import React, { useState, useContext } from 'react';
-import { useNavigate, Link, Navigate } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
+import { getDefaultRouteForRole } from '../utils/roleRedirect';
 import '../styles/auth.css';
 
 const Signup = () => {
   const { user, register } = useContext(AuthContext);
   const { t } = useTranslation();
-
-  if (user) {
-    return <Navigate to="/" replace />;
-  }
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -23,7 +21,10 @@ const Signup = () => {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
-  const navigate = useNavigate();
+
+  if (user) {
+    return <Navigate to={getDefaultRouteForRole(user.role)} replace />;
+  }
 
   const validateForm = () => {
     const errors = {};
@@ -58,24 +59,19 @@ const Signup = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
     setError('');
     setSuccess('');
+
     if (validationErrors[name]) {
-      setValidationErrors((prev) => ({
-        ...prev,
-        [name]: '',
-      }));
+      setValidationErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setError('');
     setSuccess('');
 
@@ -93,15 +89,14 @@ const Signup = () => {
     );
 
     if (result.success) {
-      setSuccess('✅ Account created successfully! Redirecting...');
-      alert('🎉 Welcome!\n\nYour account has been created successfully!\nRedirecting to home page...');
+      setSuccess(t('Account created successfully! Redirecting...'));
       setTimeout(() => {
-        navigate('/');
-      }, 1000);
+        navigate(getDefaultRouteForRole(result.user?.role));
+      }, 900);
     } else {
-      setError('❌ ' + result.message);
-      alert('❌ Signup Failed!\n\n' + result.message);
+      setError(result.message);
     }
+
     setLoading(false);
   };
 
@@ -127,12 +122,7 @@ const Signup = () => {
 
   return (
     <div className="auth-container">
-      <motion.div
-        className="auth-card signup-card"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
+      <motion.div className="auth-card signup-card" variants={containerVariants} initial="hidden" animate="visible">
         <motion.h1 variants={itemVariants} className="auth-title">
           {t('Create Account')}
         </motion.h1>
@@ -141,25 +131,13 @@ const Signup = () => {
         </motion.p>
 
         {error && (
-          <motion.div
-            variants={itemVariants}
-            className="error-message"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
+          <motion.div variants={itemVariants} className="error-message" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
             {error}
           </motion.div>
         )}
 
         {success && (
-          <motion.div
-            variants={itemVariants}
-            className="success-message"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
+          <motion.div variants={itemVariants} className="success-message" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
             {success}
           </motion.div>
         )}
@@ -167,94 +145,38 @@ const Signup = () => {
         <form onSubmit={handleSubmit} className="signup-form-grid">
           <motion.div variants={itemVariants} className="form-group">
             <label htmlFor="fullName">{t('Full Name')}</label>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder={t('John Doe')}
-              className={validationErrors.fullName ? 'input-error' : ''}
-              required
-            />
-            {validationErrors.fullName && (
-              <span className="field-error">⚠️ {validationErrors.fullName}</span>
-            )}
+            <input type="text" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} placeholder={t('John Doe')} className={validationErrors.fullName ? 'input-error' : ''} required />
+            {validationErrors.fullName && <span className="field-error">{validationErrors.fullName}</span>}
           </motion.div>
 
           <motion.div variants={itemVariants} className="form-group">
             <label htmlFor="email">{t('Email Address')}</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder={t('your.email@example.com')}
-              className={validationErrors.email ? 'input-error' : ''}
-              required
-            />
-            {validationErrors.email && (
-              <span className="field-error">⚠️ {validationErrors.email}</span>
-            )}
+            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} placeholder={t('your.email@example.com')} className={validationErrors.email ? 'input-error' : ''} required />
+            {validationErrors.email && <span className="field-error">{validationErrors.email}</span>}
           </motion.div>
 
           <motion.div variants={itemVariants} className="form-group">
             <label htmlFor="password">{t('Password')}</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder={t('••••••••')}
-              className={validationErrors.password ? 'input-error' : ''}
-              required
-            />
-            {validationErrors.password && (
-              <span className="field-error">⚠️ {validationErrors.password}</span>
-            )}
-            <small className="password-hint">
-              {t('🔒 Requires: uppercase, lowercase, number (min 6 chars)')}
-            </small>
+            <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} placeholder={t('Enter password')} className={validationErrors.password ? 'input-error' : ''} required />
+            {validationErrors.password && <span className="field-error">{validationErrors.password}</span>}
+            <small className="password-hint">{t('Requires uppercase, lowercase, and number')}</small>
           </motion.div>
 
           <motion.div variants={itemVariants} className="form-group">
             <label htmlFor="confirmPassword">{t('Confirm Password')}</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder={t('••••••••')}
-              className={validationErrors.confirmPassword ? 'input-error' : ''}
-              required
-            />
-            {validationErrors.confirmPassword && (
-              <span className="field-error">⚠️ {validationErrors.confirmPassword}</span>
-            )}
+            <input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder={t('Confirm password')} className={validationErrors.confirmPassword ? 'input-error' : ''} required />
+            {validationErrors.confirmPassword && <span className="field-error">{validationErrors.confirmPassword}</span>}
           </motion.div>
 
           <motion.div variants={itemVariants} className="form-group form-group-full">
             <label htmlFor="role">{t('Register as')}</label>
-            <select
-              id="role"
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-            >
-              <option value="patient">👤 {t('Patient')}</option>
-              <option value="doctor">👨‍⚕️ {t('Doctor')}</option>
+            <select id="role" name="role" value={formData.role} onChange={handleChange}>
+              <option value="patient">{t('Patient')}</option>
+              <option value="doctor">{t('Doctor')}</option>
             </select>
           </motion.div>
 
-          <motion.button
-            variants={itemVariants}
-            type="submit"
-            disabled={loading}
-            className="btn-submit auth-submit-button form-group-full"
-          >
+          <motion.button variants={itemVariants} type="submit" disabled={loading} className="btn-submit auth-submit-button form-group-full">
             <span>{loading ? t('Creating Account...') : t('Sign Up')}</span>
           </motion.button>
         </form>
@@ -267,37 +189,9 @@ const Signup = () => {
         </motion.p>
       </motion.div>
 
-      {/* Animated Background */}
-      <motion.div
-        className="auth-bg"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.1 }}
-        transition={{ duration: 2 }}
-      >
-        <motion.div
-          className="bg-circle bg-1"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, 50, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-        />
-        <motion.div
-          className="bg-circle bg-2"
-          animate={{
-            x: [0, -100, 0],
-            y: [0, -50, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-        />
+      <motion.div className="auth-bg" initial={{ opacity: 0 }} animate={{ opacity: 0.1 }} transition={{ duration: 2 }}>
+        <motion.div className="bg-circle bg-1" animate={{ x: [0, 100, 0], y: [0, 50, 0] }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }} />
+        <motion.div className="bg-circle bg-2" animate={{ x: [0, -100, 0], y: [0, -50, 0] }} transition={{ duration: 25, repeat: Infinity, ease: 'linear' }} />
       </motion.div>
     </div>
   );

@@ -10,6 +10,7 @@ import { formatDate } from '../utils/locale';
 
 const MyAppointments = () => {
   const [appointments, setAppointments] = useState([]);
+  const [paymentMap, setPaymentMap] = useState({});
   const { token } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -23,11 +24,30 @@ const MyAppointments = () => {
       const response = await axios.get(apiUrl('/appointments/patient'), {
         headers: authHeaders(token),
       });
-      setAppointments(response.data.appointments || []);
+      const appointmentsList = response.data.appointments || [];
+      setAppointments(appointmentsList);
+      fetchPaymentsForAppointments(appointmentsList);
     } catch (error) {
       console.error('Error fetching appointments:', error);
       setAppointments([]);
     }
+  };
+
+  const fetchPaymentsForAppointments = async (appointmentsList) => {
+    const results = await Promise.all(
+      appointmentsList.map(async (appointment) => {
+        try {
+          const response = await axios.get(apiUrl(`/payments/appointment/${appointment._id}`), {
+            headers: authHeaders(token),
+          });
+          return [appointment._id, response.data.payment];
+        } catch (error) {
+          return [appointment._id, null];
+        }
+      })
+    );
+
+    setPaymentMap(Object.fromEntries(results));
   };
 
   const handleCancel = async (appointmentId) => {
@@ -88,7 +108,19 @@ const MyAppointments = () => {
 
                   <div className="min-w-[220px] rounded-2xl bg-slate-50 p-4">
                     <p className="mb-2 text-sm"><strong>{t('Status')}:</strong> {appointment.status}</p>
-                    <p className="mb-4 text-sm"><strong>{t('Payment Status')}:</strong> {appointment.isPaid ? 'Paid' : 'Pending'}</p>
+                    <p className="mb-2 text-sm">
+                      <strong>{t('Payment Status')}:</strong>{' '}
+                      {paymentMap[appointment._id]?.status
+                        ? paymentMap[appointment._id].status
+                        : appointment.isPaid
+                          ? 'Paid'
+                          : 'Pending'}
+                    </p>
+                    <p className="mb-4 text-xs text-slate-500">
+                      {paymentMap[appointment._id]?.paymentDate
+                        ? `${t('Updated')} ${formatDate(paymentMap[appointment._id].paymentDate, i18n.resolvedLanguage)}`
+                        : t('Payment will appear after admin review')}
+                    </p>
 
                     <div className="flex flex-wrap gap-3">
                       {appointment.status === 'pending' && (
