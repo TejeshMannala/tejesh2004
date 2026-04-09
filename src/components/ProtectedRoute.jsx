@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { getDefaultRouteForRole } from '../utils/roleRedirect';
 
 const ProtectedRoute = ({ children, roles = [] }) => {
   const { user, loading } = useContext(AuthContext);
@@ -19,7 +20,7 @@ const ProtectedRoute = ({ children, roles = [] }) => {
   }
 
   if (roles.length > 0 && !roles.includes(user.role)) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={getDefaultRouteForRole(user.role)} replace />;
   }
 
   return children;

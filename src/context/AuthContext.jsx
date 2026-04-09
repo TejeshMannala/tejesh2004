@@ -10,13 +10,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verify token on mount
     if (token) {
       verifyToken();
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [token]);
 
   const verifyToken = async () => {
     try {
@@ -50,7 +49,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', newToken);
         setToken(newToken);
         setUser(userData);
-        return { success: true, message: 'Registration successful' };
+        return { success: true, message: 'Registration successful', user: userData };
       }
     } catch (error) {
       return {
@@ -72,7 +71,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', newToken);
         setToken(newToken);
         setUser(userData);
-        return { success: true, message: 'Login successful' };
+        return { success: true, message: 'Login successful', user: userData };
       }
     } catch (error) {
       return {
